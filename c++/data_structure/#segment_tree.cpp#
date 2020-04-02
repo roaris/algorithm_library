@@ -6,7 +6,6 @@ typedef long long ll;
 //const ll INF = 10000000000;
 //const ll MOD = 1000000007;
 
-//二項演算は結合法則が成り立てばOK
 struct segtree {
     int size;
     vector<ll> node;
@@ -15,7 +14,7 @@ struct segtree {
         size = 1;
         while (size<n) size *= 2;
         node.resize(2*size-1);
-        //ここ単位元にする
+        //ここ初期値にする
         fill(node.begin(), node.end(), 2147483647);
     }
     
@@ -32,7 +31,7 @@ struct segtree {
     
     ll query(int a, int b, int k, int l, int r) {
         //ここ単位元にする
-        if (r<=a || b<=l) return 2147483647;
+        if (r<=a || b<=l) return ;
         if (a<=l && r<=b) return node[k];
         else {
             int vl = query(a, b, 2*k+1, l, (l+r)/2);
