@@ -15,7 +15,7 @@ struct segtree {
         size = 1;
         while (size<n) size *= 2;
         node.resize(2*size-1);
-        //ここ単位元にする
+        //ここ初期値にする
         fill(node.begin(), node.end(), 2147483647);
     }
     
@@ -35,8 +35,8 @@ struct segtree {
         if (r<=a || b<=l) return 2147483647;
         if (a<=l && r<=b) return node[k];
         else {
-            int vl = query(a, b, 2*k+1, l, (l+r)/2);
-            int vr = query(a, b, 2*k+2, (l+r)/2, r);
+            ll vl = query(a, b, 2*k+1, l, (l+r)/2);
+            ll vr = query(a, b, 2*k+2, (l+r)/2, r);
             //ここ変える
             return min(vl, vr);
         }
