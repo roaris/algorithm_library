@@ -1,4 +1,6 @@
 #AOJ DSL_2_B
+#クエリが区間の和だったらセグ木よりもBITの方が高速!
+
 class BIT:
     #n:要素数
     def __init__(self, n):
@@ -23,6 +25,14 @@ class BIT:
             i -= i&(-i)
         
         return s
+    
+    #[l:r]の和を求める
+    def get(self, l, r):
+        return self.acc(r)-self.acc(l-1)
+    
+    #i番目(0-indexed)の値をxに変更する
+    def update(self, i, x):
+        bit.add(i, -self.get(i, i)+x)
 
 n, q = map(int, input().split())
 bit = BIT(n)
