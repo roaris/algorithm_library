@@ -14,10 +14,9 @@ class BIT:
         while i<=self.n:
             self.bit[i] += x
             i += i&(-i)
-    
-    #0からi番目までの値の和を求める
+
+    #sum[0:i)
     def acc(self, i):
-        i += 1
         s = 0
         
         while i>0:

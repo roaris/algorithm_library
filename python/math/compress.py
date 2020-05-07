@@ -4,10 +4,8 @@ def compress(l):
     l = list(set(l))
     l.sort()
     idx = defaultdict(int)
-    c = 0
-    
-    for li in l:
-        idx[li] = c
-        c += 1
+
+    for i in range(len(l)):
+        idx[l[i]] = i
     
     return idx
