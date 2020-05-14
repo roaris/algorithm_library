@@ -6,7 +6,7 @@ vector<P> factorize(int n) {
             cnt++;
             n /= i;
         }
-        res.pb(P(i, cnt));
+        if (cnt>0) res.pb(P(i, cnt));
     }
     if (n!=1) res.pb(P(n, 1));
     return res;
