@@ -7,7 +7,7 @@ from collections import *
 #最小カット: sからtへのパスが存在しなくなるために、除去しなければならない辺の容量の和の最小値
 #最大流=最小カット
 class FordFulkerson:
-    def __init__(self, N, edges):
+    def __init__(self, N, edges): #edges: (s, t, c) sからtに向かう容量cの有向辺
         self.N = N
         self.G = defaultdict(lambda : defaultdict(int))
         
