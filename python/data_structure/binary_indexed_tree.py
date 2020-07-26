@@ -33,6 +33,25 @@ class BIT:
     def update(self, i, x):
         bit.add(i, -self.get(i, i)+x)
 
+    #小さい方からk番目(1-indexed)の数を求める
+    def get(self, k):
+        res = 0
+        N = 1
+        
+        while N<self.n:
+            N *= 2
+        
+        i = N//2
+        
+        while i>0:
+            if res+i<self.n and self.bit[res+i]<k:
+                k = k-self.bit[res+i]
+                res = res+i
+        
+            i //= 2
+        
+        return res
+
 n, q = map(int, input().split())
 bit = BIT(n)
 
