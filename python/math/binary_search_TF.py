@@ -1,5 +1,5 @@
 def binary_search():
-    #ここ変える
+    #0除算に注意！！！
     l, r = 0, N-1
     
     while l<=r:
