@@ -38,7 +38,7 @@ class Mincostflow:
             if dist[t]==10**18:
                 return -1
             
-            for i in range(N):
+            for i in range(self.N):
                 h[i] += dist[i]
                 
             d = f
