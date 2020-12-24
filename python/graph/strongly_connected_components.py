@@ -1,71 +1,65 @@
-#scc: 強連結成分分解を行う
-#G: 順方向グラフ
-#RG: 逆方向グラフ
-#label: ラベル数
-#group: 各頂点のラベル
-#---------------------------------------------------
-#construct: 縮約したグラフを構築する
-#belong: ラベルiに属する頂点のリスト
-#G2: ラベル間のグラフ
-#---------------------------------------------------
 #縮約後のグラフはDAGになる→DPが可能になる!
 #強連結成分毎に前処理して、DAGに潰してDPするのは典型
-#---------------------------------------------------
-
 import sys
-sys.setrecursionlimit(10**6+100)
+input = sys.stdin.readline
+sys.setrecursionlimit(5*10**5+10)
 
-def scc():
-    order = []
-    visited = [False]*N
-    
-    def dfs(v):
-        visited[v] = True
+class Scc:
+    def __init__(self, N, G):
+        self.N = N
+        self.G = G
+        self.RG = [[] for _ in range(N)]
         
-        for nv in G[v]:
-            if not visited[nv]:
-                dfs(nv)
+        for v in range(N):
+            for nv in G[v]:
+                self.RG[nv].append(v)
+    
+    def decomp(self):
+        order = []
+        visited = [False]*self.N
         
-        order.append(v)
-    
-    for v in range(N):
-        if not visited[v]:
-            dfs(v)
-    
-    visited = [False]*N
-    group = [-1]*N
-    label = 0
-    
-    def rdfs(v, label):
-        group[v] = label
-        visited[v] = True
-        
-        for nv in RG[v]:
-            if not visited[nv]:
-                rdfs(nv, label)
-    
-    for v in reversed(order):
-        if not visited[v]:
-            rdfs(v, label)
-            label += 1
+        def dfs(v):
+            visited[v] = True
             
-    return label, group
-    
-def construct():
-    belong = [[] for _ in range(label)]
-    G2 = [set() for _ in range(label)]
-    
-    for v in range(N):
-        l1 = group[v]
-        
-        for nv in G[v]:
-            l2 = group[nv]
+            for nv in self.G[v]:
+                if not visited[nv]:
+                    dfs(nv)
             
-            if l1==l2:
-                continue
+            order.append(v)
             
-            G2[l1].add(l2)
+        for v in range(self.N):
+            if not visited[v]:
+                dfs(v)
         
-        belong[l1].append(v)
+        visited = [False]*self.N
+        comp = [-1]*self.N
+        label = 0
+        
+        def rdfs(v, label):
+            comp[v] = label
+            visited[v] = True
+            
+            for nv in self.RG[v]:
+                if not visited[nv]:
+                    rdfs(nv, label)
+            
+        for v in reversed(order):
+            if not visited[v]:
+                rdfs(v, label)
+                label += 1
+        
+        return label, comp
     
-    return belong, G2
+    def construct(self):
+        label, comp = self.decomp()
+        belong = [[] for _ in range(label)]
+        nG = [set() for _ in range(label)]
+        
+        for v in range(self.N):
+            for nv in self.G[v]:
+                if comp[v]!=comp[nv]:
+                    nG[comp[v]].add(comp[nv])
+            
+            belong[comp[v]].append(v)
+        
+        return belong, nG
