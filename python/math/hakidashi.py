@@ -12,12 +12,11 @@ def hakidashi(A): #mod2の掃き出し法 O(NM^2) 戻り値は(rank, 変換後�
                 break
         
         if found:
-            for j in range(pos+1, N):
-                if A[j][i]==1:
+            for j in range(N):
+                if j!=pos and A[j][i]==1:
                     for k in range(i, M):
                         A[j][k] ^= A[pos][k]
             
             pos += 1
     
     return pos, A
-
