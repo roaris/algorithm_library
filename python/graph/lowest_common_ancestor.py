@@ -1,43 +1,43 @@
-class LowestCommonAncestor:
+class LCA:
     def __init__(self, N, G):
         self.N = N
         self.G = G
         self.log_size = 22
-        self.parent = [[-1]*self.N for _ in range(self.log_size)]
+        self.par = [[-1]*self.N for _ in range(self.log_size)]
         q = deque([0])
-        self.depth = [-1]*self.N
-        self.depth[0] = 0
+        self.dep = [-1]*self.N
+        self.dep[0] = 0
         
         while q:
             v = q.popleft()
             
             for nv in self.G[v]:
-                if self.depth[nv]==-1:
-                    self.parent[0][nv] = v
-                    self.depth[nv] = self.depth[v]+1
+                if self.dep[nv]==-1:
+                    self.par[0][nv] = v
+                    self.dep[nv] = self.dep[v]+1
                     q.append(nv)
                     
         for i in range(1, self.log_size):
             for v in range(self.N):
-                if self.parent[i-1][v]>=0:
-                    self.parent[i][v] = self.parent[i-1][self.parent[i-1][v]]
+                if self.par[i-1][v]>=0:
+                    self.par[i][v] = self.par[i-1][self.par[i-1][v]]
     
-    def lca(self, u, v):
-        if self.depth[u]>self.depth[v]:
+    def calc_lca(self, u, v):
+        if self.dep[u]>self.dep[v]:
             u, v = v, u
         
         for i in range(self.log_size):
-            if ((self.depth[v]-self.depth[u])>>i)&1:
-                v = self.parent[i][v]
+            if ((self.dep[v]-self.dep[u])>>i)&1:
+                v = self.par[i][v]
         
         if u==v:
             return u
         
         for i in range(self.log_size-1, -1, -1):
-            if self.parent[i][u]!=self.parent[i][v]:
-                u, v = self.parent[i][u], self.parent[i][v]
+            if self.par[i][u]!=self.par[i][v]:
+                u, v = self.par[i][u], self.par[i][v]
         
-        return self.parent[0][u]
+        return self.par[0][u]
     
     def dist(self, u, v):
-        return self.depth[u]+self.depth[v]-2*self.depth[self.lca(u, v)]
+        return self.dep[u]+self.dep[v]-2*self.dep[self.calc_lca(u, v)]
