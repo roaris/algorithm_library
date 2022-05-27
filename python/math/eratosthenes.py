@@ -10,4 +10,4 @@ def era(n): #n以下の素数を列挙
         for j in range(2*i, n+1, i):
             is_prime[j] = False
     
-    return [i for i in range(n+1) if is_prime[i]]
+    return is_prime
