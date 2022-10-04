@@ -12,7 +12,7 @@ class FordFulkerson:
         self.G = defaultdict(lambda : defaultdict(int))
         
         for s, t, cap in edges:
-            self.G[s][t] = cap
+            self.G[s][t] += cap
         
     def dfs(self, v, t, f):
         if v==t:
