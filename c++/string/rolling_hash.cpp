@@ -10,7 +10,7 @@ struct RollingHash {
     
     RollingHash(string s) {
         for (int i=0; i<s.size(); i++) {
-            acc.push_back((acc.back()*base+(s[i]-'a'))%mod);
+            acc.push_back((acc.back()*base+(s[i]-'a'+1))%mod);
             power.push_back(power.back()*base%mod);
         }
     }
