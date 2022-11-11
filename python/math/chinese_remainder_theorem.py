@@ -1,24 +1,45 @@
+# https://yukicoder.me/problems/no/187
+import sys
+input = sys.stdin.readline
 from math import gcd
- 
-def extGCD(a, b): #ax+by=gcd(a,b)となる(x,y)を1つ求める
+
+def ext_gcd(a, b):
     if b==0:
         return 1, 0
     
-    s, t = extGCD(b, a%b)
+    s, t = ext_gcd(b, a%b)
     return t, s-a//b*t
- 
-def crt(rs, ms): #x≡rs[0](mod ms[0]),...となるxについてx≡r(mod lcm(ms))となるrを求める
+
+def crt(rs, ms):
     r, m = 0, 1
     
-    for i in range(len(rs)):
-        p, q = extGCD(m, ms[i])
-        g = gcd(m, ms[i])
+    for ri, mi in zip(rs, ms):
+        p, q = ext_gcd(m, mi)
+        g = gcd(m, mi)
         
-        if (rs[i]-r)%g!=0:
-            return -1
+        if (ri-r)%g!=0:
+            return -1, -1
         
-        t = (rs[i]-r)//g*p%(ms[i]//g)
-        r += m*t
-        m *= ms[i]//g
+        r += m*(ri-r)//g*p
+        m *= mi//g
+        r %= m
     
-    return r%m
+    return r, m
+
+N = int(input())
+rs, ms = [], []
+
+for _ in range(N):
+    r, m = map(int, input().split())
+    rs.append(r)
+    ms.append(m)
+
+r, m = crt(rs, ms)
+
+if r==-1:
+    print(r)
+else:
+    if r==0:
+        print(m%(10**9+7))
+    else:
+        print(r%(10**9+7))
