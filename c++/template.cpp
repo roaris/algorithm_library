@@ -10,6 +10,7 @@ int main() {
     //ループ変数が被っていないか?
     //制約を確認しているか?
     //変数のtypoがないか?
+    //出力多い時はendlを使うな
     cin.tie(0); ios::sync_with_stdio(false);
     
 }
